@@ -16,5 +16,6 @@ contract Raffle {
 
     function enterRaffle() public payable {}
 
+
     function pickWinner() public {}
 }
