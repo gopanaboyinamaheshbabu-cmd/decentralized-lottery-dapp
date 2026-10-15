@@ -16,6 +16,12 @@ contract Raffle {
 
     function enterRaffle() public payable {}
 
-
     function pickWinner() public {}
+
+    /**
+     * Getter function
+     */
+    function getEntranceFee() public view returns (uint256) {
+        return i_entranceFee;
+    }
 }
