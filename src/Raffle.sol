@@ -22,8 +22,8 @@
 // view & pure functions
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
-/**
- * Errors
+/*
+  Errors
  */
 error Raffle__NotEnoughEthSent();
 
@@ -35,6 +35,9 @@ error Raffle__NotEnoughEthSent();
  */
 contract Raffle {
     uint256 private immutable i_entranceFee;
+    address payable[] private s_players;
+    /* Events */
+    event RafflEntered(address indexed player);
 
     constructor(uint256 entranceFee) {
         i_entranceFee = entranceFee;
@@ -44,13 +47,13 @@ contract Raffle {
         if (msg.value < i_entranceFee) {
             revert Raffle__NotEnoughEthSent();
         }
+        s_players.push(payable(msg.sender));
+        emit RafflEntered(msg.sender);
     }
 
     function pickWinner() public {}
 
-    /**
-     * Getter function
-     */
+    /* Getter function */
     function getEntranceFee() public view returns (uint256) {
         return i_entranceFee;
     }
