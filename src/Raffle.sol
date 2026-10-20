@@ -59,7 +59,7 @@ contract Raffle {
     // 1.Get a random number
     // 2.use random number to pick winner
     // 3. Be automatically called
-    function pickWinner() external {
+    function pickWinner() external view {
         // check to see if enough time has passed
         if (block.timestamp - s_lastTimeStamp < i_interval) {
             revert();
