@@ -13,7 +13,7 @@ Foundry consists of:
 
 https://book.getfoundry.sh/
 
-## Usage  
+## Usage
 
 ### Build
 
