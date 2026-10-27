@@ -22,6 +22,9 @@
 // view & pure functions
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
+import {
+    VRFConsumerBaseV2Plus
+} from "@smartcontractkit/chainlink-evm/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
 /*
   Errors
  */
@@ -33,7 +36,7 @@ error Raffle__NotEnoughEthSent();
  * @notice This contract makes anyone participate in Lottery program
  * @dev Using chainlink verifiable random function
  */
-contract Raffle {
+contract Raffle is VRFConsumerBaseV2Plus {
     uint256 private immutable i_entranceFee;
     // @dev The duration of the lottery in seconds
     uint256 private immutable i_interval;
@@ -42,7 +45,7 @@ contract Raffle {
     /* Events */
     event RafflEntered(address indexed player);
 
-    constructor(uint256 entranceFee, uint256 interval) {
+    constructor(uint256 entranceFee, uint256 interval, address vrfCoordinator) VRFConsumerBaseV2Plus(vrfCoordinator) {
         i_entranceFee = entranceFee;
         i_interval = interval;
         s_lastTimeStamp = block.timestamp;
@@ -64,7 +67,18 @@ contract Raffle {
         if (block.timestamp - s_lastTimeStamp < i_interval) {
             revert();
         }
+        //     s_requestId = s_vrfCoordinator.requestRandomWords(
+        //   VRFV2PlusClient.RandomWordsRequest({
+        //     keyHash: s_keyHash,
+        //     subId: s_subscriptionId,
+        //     requestConfirmations: REQUEST_CONFIRMATIONS,
+        //     callbackGasLimit: CALLBACK_GAS_LIMIT,
+        //     numWords: NUM_WORDS,
+        //     extraArgs: VRFV2PlusClient._argsToBytes(VRFV2PlusClient.ExtraArgsV1({nativePayment: false}))
+        //   })
+        // );
     }
+    function fulfillRandomWords(uint256 requestId, uint256[] calldata randomWords) internal override {}
 
     /* Getter function */
     function getEntranceFee() public view returns (uint256) {
